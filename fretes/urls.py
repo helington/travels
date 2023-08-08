@@ -6,4 +6,5 @@ urlpatterns = [
     path("add", views.addFreight, name="addFreight"),
     path("edit<int:freight_id>", views.editFreight, name="editFreight"),
     path("remove<int:freight_id>", views.removeFreight, name="removeFreight"),
+    path("generate-pdf/", views.generate_pdf, name="generate_pdf"),
 ]

@@ -1,10 +1,22 @@
 from models import Frete
+
 # Create your views here.
+
 
 def organizeFreights():
     months = [
-        'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-        'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+        "Janeiro",
+        "Fevereiro",
+        "Março",
+        "Abril",
+        "Maio",
+        "Junho",
+        "Julho",
+        "Agosto",
+        "Setembro",
+        "Outubro",
+        "Novembro",
+        "Dezembro",
     ]
     freightsPerMonth = {}
     for i in range(1, 13):
@@ -12,5 +24,6 @@ def organizeFreights():
         if not freightsInMonth:
             freightsPerMonth[months[i - 1]] = freightsInMonth
     return freightsPerMonth
+
 
 print(organizeFreights())
