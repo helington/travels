@@ -1,0 +1,5 @@
+Django==4.2.4
+reportlab==4.0.4
+
+black==23.7.0
+isort==5.12.0
