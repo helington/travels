@@ -12,7 +12,7 @@
                 <li style="padding: 5px;">
                     <strong>{{freight.makeDate}}:</strong>
                     {{freight.title}}
-                    <a href="{% url 'editFreight' freight_id=freight.id%}" class="link-primary" style="padding-left: 5px;">edit</a>
+                    <a href="{% url 'edit_freight' freight_id=freight.id%}" class="link-primary" style="padding-left: 5px;">edit</a>
                 </li>
                 {% endfor %}
             </ul>

@@ -10,7 +10,7 @@ from .models import Frete
 # Create your views here.
 
 
-def organizeFreights():
+def organize_freights():
     months = [
         "Janeiro",
         "Fevereiro",
@@ -25,21 +25,21 @@ def organizeFreights():
         "Novembro",
         "Dezembro",
     ]
-    freightsPerMonth = {}
+    freights_per_month = {}
     for i in range(1, 13):
-        freightsInMonth = Frete.objects.filter(date__month=i)
-        if freightsInMonth:
-            freightsPerMonth[months[i - 1]] = freightsInMonth
-    return freightsPerMonth
+        freights_in_month = Frete.objects.filter(date__month=i)
+        if freights_in_month:
+            freights_per_month[months[i - 1]] = freights_in_month
+    return freights_per_month
 
 
 def index(request):
-    months = organizeFreights
+    months = organize_freights
     return render(request, "fretes/index.html", {"months": months})
 
 
 def generate_pdf(request):
-    freights = organizeFreights()
+    freights = organize_freights()
     month_names = list(freights.keys())
 
     response = HttpResponse(content_type="application/pdf")
@@ -70,15 +70,15 @@ def generate_pdf(request):
     return response
 
 
-def removeFreight(request, freight_id):
+def removef_reight(request, freight_id):
     freight = Frete.objects.get(id=freight_id)
     freight.delete()
 
     return HttpResponseRedirect(reverse("index"))
 
 
-def editFreight(request, freight_id):
-    isEditing = True
+def edit_freight(request, freight_id):
+    is_editing = True
     freight = Frete.objects.get(id=freight_id)
     if request.method == "POST":
         title = request.POST["title"]
@@ -91,13 +91,13 @@ def editFreight(request, freight_id):
         return HttpResponseRedirect(reverse("index"))
     return render(
         request,
-        "fretes/addFreightPage.html",
-        {"freight": freight, "isEditing": isEditing},
+        "fretes/add_freightPage.html",
+        {"freight": freight, "is_editing": is_editing},
     )
 
 
-def addFreight(request):
-    isEditing = False
+def add_freight(request):
+    is_editing = False
     if request.method == "POST":
         title = request.POST["title"]
         date = request.POST["date"]
@@ -105,4 +105,4 @@ def addFreight(request):
         freigth = Frete(title=title, date=date)
         freigth.save()
 
-    return render(request, "fretes/addFreightPage.html", {"isEditing": isEditing})
+    return render(request, "fretes/add_freightPage.html", {"is_editing": is_editing})

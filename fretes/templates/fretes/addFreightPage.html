@@ -4,8 +4,8 @@
 
     <div class="container">
         <h1>Add new Freigth</h1>
-        {% if isEditing %}
-        <form action="{% url 'editFreight' freight_id=freight.id %}"  method="post">
+        {% if is_editing %}
+        <form action="{% url 'edit_freight' freight_id=freight.id %}"  method="post">
             {% csrf_token %}
             <div class="form-group">
                 <label for="title">Title </label>
@@ -17,13 +17,13 @@
             </div>
             <div class="formButtons">
                 <input class="btn btn-primary" type="submit" value="Submit">
-                <a href="{% url 'removeFreight' freight_id=freight.id %}" class="btn btn-outline-danger">Remove</a>
+                <a href="{% url 'removef_reight' freight_id=freight.id %}" class="btn btn-outline-danger">Remove</a>
                 
             </div>
             
         </form>
         {% else %}
-        <form action="{% url 'addFreight' %}"  method="post">
+        <form action="{% url 'add_freight' %}"  method="post">
             {% csrf_token %}
             <div class="form-group">
                 <label for="title">Title </label>
