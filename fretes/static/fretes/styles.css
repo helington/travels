@@ -1,0 +1,12 @@
+body {
+    padding: 5px;
+}
+
+.freights {
+    padding-left: 20px;
+}
+
+.formButtons {
+    display: flex;
+    justify-content: space-between;
+}
