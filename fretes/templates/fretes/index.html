@@ -18,6 +18,7 @@
             </ul>
             {% endfor %}
         </div>
+        {% if not isEmpty %}
         <form action="{% url 'generate_pdf' %}" method="get">
             <button class="btn btn-outline-success" type="submit">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-pdf" viewBox="0 0 16 16">
@@ -28,6 +29,7 @@
             </button>
         </form>
         {% comment %} <button class="btn btn-sucess""></button> {% endcomment %}
+        {% endif %}
     </div>
 
 {% endblock %}

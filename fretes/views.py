@@ -35,7 +35,10 @@ def organize_freights():
 
 def index(request):
     months = organize_freights
-    return render(request, "fretes/index.html", {"months": months})
+    isEmpty = False
+    if not months:
+        isEmpty = True
+    return render(request, "fretes/index.html", {"months": months, "isEmpty": isEmpty})
 
 
 def generate_pdf(request):
@@ -46,12 +49,6 @@ def generate_pdf(request):
     response[
         "Content-Disposition"
     ] = f'attachment; filename="Fretes de {month_names[0]} a {month_names[1]}.pdf"'
-    # NOTE: Isso vai quebrar se o banco de dados estiver vazio.
-    # O ideal é não mostrar o botão de renderizar o PDF nesse caso.
-    # Caso essa função seja chamada mesmo nesse caso, `month_names` vazio ainda precisa ser tratado
-    #
-    # TODO: Tratar caso de `month_names` vazio
-    # TODO: Adicionar datas no arquivo PDF
 
     doc = SimpleDocTemplate(response, pagesize=letter)
     styles = getSampleStyleSheet()
@@ -62,7 +59,7 @@ def generate_pdf(request):
         pdf_content.append(heading)
 
         for freight in freights_in_month:
-            pdf_content.append(Paragraph(f"• {freight.title}", styles["Normal"]))
+            pdf_content.append(Paragraph(f" {freight.title}", styles["Normal"]))
 
         pdf_content.append(Spacer(0, 10))
 
