@@ -50,6 +50,7 @@ def generate_pdf(request):
         "Content-Disposition"
     ] = f'attachment; filename="Fretes de {month_names[0]} a {month_names[1]}.pdf"'
 
+
     doc = SimpleDocTemplate(response, pagesize=letter)
     styles = getSampleStyleSheet()
 
@@ -59,7 +60,7 @@ def generate_pdf(request):
         pdf_content.append(heading)
 
         for freight in freights_in_month:
-            pdf_content.append(Paragraph(f" {freight.title}", styles["Normal"]))
+            pdf_content.append(Paragraph(f"<strong>{freight.makeDate()}</strong>: {freight.title}", styles["Normal"]))
 
         pdf_content.append(Spacer(0, 10))
 
