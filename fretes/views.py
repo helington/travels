@@ -1,6 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from .utils  import organize_freights, remove_invalid_freights
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer
@@ -9,30 +10,7 @@ from .models import Frete
 
 # Create your views here.
 
-
-
-def organize_freights():
-    months = [
-        "Janeiro",
-        "Fevereiro",
-        "Março",
-        "Abril",
-        "Maio",
-        "Junho",
-        "Julho",
-        "Agosto",
-        "Setembro",
-        "Outubro",
-        "Novembro",
-        "Dezembro",
-    ]
-    freights_per_month = {}
-    for i in range(1, 13):
-        freights_in_month = Frete.objects.filter(date__month=i)
-        if freights_in_month:
-            freights_per_month[months[i - 1]] = freights_in_month
-    return freights_per_month
-
+remove_invalid_freights()
 
 def index(request):
     months = organize_freights
