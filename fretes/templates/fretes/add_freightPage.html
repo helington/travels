@@ -4,6 +4,13 @@
 
     <div class="container">
         <h1>Add new Freigth</h1>
+        
+        {% if message %}
+            <div class="{% if isErrorMessage %} alert alert-danger {% else %} alert alert-success {%endif%}" role="alert">
+                {{message}}
+            </div>
+        {% endif %}
+
         {% if is_editing %}
         <form action="{% url 'edit_freight' freight_id=freight.id %}"  method="post">
             {% csrf_token %}

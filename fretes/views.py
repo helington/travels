@@ -10,6 +10,7 @@ from .models import Frete
 # Create your views here.
 
 
+
 def organize_freights():
     months = [
         "Janeiro",
@@ -96,11 +97,19 @@ def edit_freight(request, freight_id):
 
 def add_freight(request):
     is_editing = False
+    message = ""
+    errorMessage = False
     if request.method == "POST":
         title = request.POST["title"]
         date = request.POST["date"]
 
-        freigth = Frete(title=title, date=date)
-        freigth.save()
+        
+        if len(Frete.objects.filter(date=date)) > 0:
+            message = "Já existe um frete agendado nesta data!"
+            errorMessage = True
+        else:
+            message = "Frete agendado com sucesso!"
+            freigth = Frete(title=title, date=date)
+            freigth.save()
 
-    return render(request, "fretes/add_freightPage.html", {"is_editing": is_editing})
+    return render(request, "fretes/add_freightPage.html", {"is_editing": is_editing, "message": message, "isErrorMessage": errorMessage})
