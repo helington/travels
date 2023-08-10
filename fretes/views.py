@@ -91,3 +91,7 @@ def add_freight(request):
             freigth.save()
 
     return render(request, "fretes/add_freightPage.html", {"is_editing": is_editing, "message": message, "isErrorMessage": errorMessage})
+
+
+def whatsapp(request):
+    return render(request, "fretes/whatsapp_page.html")

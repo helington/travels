@@ -10,3 +10,8 @@ body {
     display: flex;
     justify-content: space-between;
 }
+
+.footer-buttons {
+    display: flex;
+    justify-content: space-between;
+}

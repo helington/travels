@@ -1,0 +1,35 @@
+{% extends 'fretes/layout.html' %}
+
+{% block body %}
+
+    <h1>Send Freight List</h1>
+
+    <form action="{% url 'whatsapp' %}" method="post">
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputPhoneNumber">Phone Number</label>
+                <input type="text" class="form-control" name="phone_number" id="inputPhoneNumber" placeholder="Type a phone number">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputPhoneNumber">Contact</label>
+                <input type="text" class="form-control" name="contact" id="inputContact" placeholder="Contact name">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-check">
+              <input class="form-check-input" name="saveContact" type="checkbox" id="gridCheck">
+              <label class="form-check-label"  for="gridCheck">
+                Save contact
+              </label>
+            </div>
+          </div>
+        <input type="submit" class="btn btn-primary">
+    </form>
+
+    <hr>
+
+    <h2>Saved contacts</h2>
+    <ul>
+    </ul>
+{% endblock %}
