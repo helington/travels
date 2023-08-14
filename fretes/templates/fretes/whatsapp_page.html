@@ -31,5 +31,11 @@
 
     <h2>Saved contacts</h2>
     <ul>
+      {% for contact in contacts %}
+      <li>
+        <p>{{contact.name}}</p>
+        <p> Phone Number: {{contact.phone_number}} <a href="{% url 'send_pdf_to_whatsapp' phonenumber=contact.phone_number%}" class="link-primary" style="padding-left: 5px;">send</a></p>
+      </li>
+      {% endfor %}
     </ul>
 {% endblock %}
