@@ -1,4 +1,5 @@
-from django.http import HttpResponse, HttpResponseRedirect
+import json
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from .utils  import organize_freights, remove_invalid_freights
@@ -12,22 +13,56 @@ from .models import Frete
 
 remove_invalid_freights()
 
-def index(request):
-    months = organize_freights
-    isEmpty = False
-    if not months:
-        isEmpty = True
-    return render(request, "fretes/index.html", {"months": months, "isEmpty": isEmpty})
+def all_freights(request):
+    freights = Frete.objects.all()
+    return JsonResponse([freight.serialize() for freight in freights], safe=False)
 
+def freight_by_id(request, freight_id):
+    try:
+        freight = Frete.objects.get(id=freight_id)
+    except Frete.DoesNotExist:
+        return JsonResponse({"error": "Freight not found."}, status=404)
+    
+    if request.method == "GET":
+        return JsonResponse(freight.serialize())
 
-def generate_pdf(request):
+    elif request.method == "PUT":
+        data = json.loads(request.body)
+        title = data.get("title")
+        date = date.get("date")
+        if title is not None:
+            freight.title = title
+        if date is not None:
+            freight.date = date
+
+        freight.save
+        return HttpResponse(status=204)
+
+def new_freight(request):
+    if request.method != "POST":
+        return JsonResponse({"error": "POST request required."}, status=400)
+
+    data = json.loads(request.body)
+    title = data.get("title", "")
+    date = data.get("date", "")
+
+    freight = Frete(
+        title=title,
+        date=date
+    )
+
+    freight.save()
+
+    return JsonResponse({"message": "POST registred succesfully."}, status=201)
+
+def generate_pdf(request, content_disposition):
     freights = organize_freights()
     month_names = list(freights.keys())
 
     response = HttpResponse(content_type="application/pdf")
     response[
         "Content-Disposition"
-    ] = f'attachment; filename="Fretes de {month_names[0]} a {month_names[1]}.pdf"'
+    ] = f'{"inline" if content_disposition == "view" else "attachment"}; filename="Fretes de {month_names[0]} a {month_names[1]}.pdf"'
 
 
     doc = SimpleDocTemplate(response, pagesize=letter)
@@ -45,53 +80,3 @@ def generate_pdf(request):
 
     doc.build(pdf_content)
     return response
-
-
-def removef_reight(request, freight_id):
-    freight = Frete.objects.get(id=freight_id)
-    freight.delete()
-
-    return HttpResponseRedirect(reverse("index"))
-
-
-def edit_freight(request, freight_id):
-    is_editing = True
-    freight = Frete.objects.get(id=freight_id)
-    if request.method == "POST":
-        title = request.POST["title"]
-        date = request.POST["date"]
-
-        freight.title = title
-        freight.date = date
-        freight.save()
-
-        return HttpResponseRedirect(reverse("index"))
-    return render(
-        request,
-        "fretes/add_freightPage.html",
-        {"freight": freight, "is_editing": is_editing},
-    )
-
-
-def add_freight(request):
-    is_editing = False
-    message = ""
-    errorMessage = False
-    if request.method == "POST":
-        title = request.POST["title"]
-        date = request.POST["date"]
-
-        
-        if len(Frete.objects.filter(date=date)) > 0:
-            message = "Já existe um frete agendado nesta data!"
-            errorMessage = True
-        else:
-            message = "Frete agendado com sucesso!"
-            freigth = Frete(title=title, date=date)
-            freigth.save()
-
-    return render(request, "fretes/add_freightPage.html", {"is_editing": is_editing, "message": message, "isErrorMessage": errorMessage})
-
-
-def whatsapp(request):
-    return render(request, "fretes/whatsapp_page.html")

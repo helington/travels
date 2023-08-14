@@ -12,14 +12,17 @@ class Frete(models.Model):
 
     def makeDateForHTML(self):
         return f"{self.date.year}-{self.date.strftime('%m')}-{self.date.day}"
-
-class Contato(models.Model):
-    name = models.CharField(max_length=64)
-    phone_number = models.CharField(max_length=11)
-
+        
     def __str__(self):
         return f"""
         id: {self.id}
-        name: {self.name}
-        phone_number: {self.phone_number}
+        title: {self.title}
+        date: {self.makeDate}
         """
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "date": self.date.strftime("%b %d %Y, %I:%M %p")
+        }

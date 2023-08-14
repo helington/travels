@@ -1,6 +1,9 @@
 from .models import Frete
 from datetime import date
 
+def send_pdf_to_whatsapp(phonenumber):
+    pass
+
 def remove_invalid_freights():
     freights = Frete.objects.all()
     today = date.today()
