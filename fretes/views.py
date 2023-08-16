@@ -80,3 +80,7 @@ def generate_pdf(request, content_disposition):
 
     doc.build(pdf_content)
     return response
+
+def freights_by_month(request, freight_month):
+    freights = Frete.objects.filter(date__month=freight_month)
+    return JsonResponse([freight.serialize() for freight in freights], safe=False)
