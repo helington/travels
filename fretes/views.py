@@ -6,6 +6,7 @@ from .utils  import organize_freights, remove_invalid_freights
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer
+from django.views.decorators.csrf import csrf_exempt
 
 from .models import Frete
 
@@ -13,9 +14,13 @@ from .models import Frete
 
 remove_invalid_freights()
 
+def index(request):
+    return render(request, "fretes/index.html")
+
+@csrf_exempt
 def all_freights(request):
-    freights = Frete.objects.all()
-    return JsonResponse([freight.serialize() for freight in freights], safe=False)
+    freights = organize_freights()
+    return JsonResponse(freights, safe=False)
 
 def freight_by_id(request, freight_id):
     try:

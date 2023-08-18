@@ -20,9 +20,9 @@ def organize_freights():
     ]
     freights_per_month = {}
     for i in range(1, 13):
-        freights_in_month = [Frete.objects.filter(date__month=i)]
+        freights_in_month = Frete.objects.filter(date__month=i)
         if not freights_in_month:
-            freights_per_month[months[i - 1]] = freights_in_month
+            freights_per_month[months[i - 1]] = freights_in_month.serialize()
     return freights_per_month
 
 
