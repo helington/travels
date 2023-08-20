@@ -12,7 +12,7 @@ def remove_invalid_freights():
             freight.delete()
 
 
-def organize_freights():
+def organize_freights(json=False):
     months = [
         "Janeiro",
         "Fevereiro",
@@ -27,9 +27,17 @@ def organize_freights():
         "Novembro",
         "Dezembro",
     ]
-    freights_per_month = {}
+    freights_per_month = {} if not json else []
     for i in range(1, 13):
         freights_in_month = Frete.objects.filter(date__month=i)
         if freights_in_month:
-            freights_per_month[months[i - 1]] = freights_in_month
+            if not json:
+                freights_per_month[months[i - 1]] = freights_in_month
+            else:
+                row = {
+                    "month": months[i - 1],
+                    "freights": [freight_in_month.serialize() for freight_in_month in freights_in_month]
+                }
+                freights_per_month.append(row)
+
     return freights_per_month
