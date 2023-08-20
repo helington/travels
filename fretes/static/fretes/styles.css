@@ -15,3 +15,15 @@ body {
     display: flex;
     justify-content: space-between;
 }
+
+.nav {
+    margin: 5px;
+}
+
+.btn {
+    margin-right: 5px;
+}
+
+.container {
+    padding: 5px;
+}
