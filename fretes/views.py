@@ -17,9 +17,13 @@ remove_invalid_freights()
 def index(request):
     return render(request, "fretes/index.html")
 
+def freights_by_month(request, freight_month):
+    freights = Frete.objects.filter(date__month=freight_month)
+    return JsonResponse([freight.serialize() for freight in freights], safe=True)
+
 @csrf_exempt
 def all_freights(request):
-    freights = organize_freights()
+    freights = organize_freights(json=True)
     return JsonResponse(freights, safe=False)
 
 def freight_by_id(request, freight_id):
