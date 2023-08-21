@@ -29,7 +29,7 @@ def organize_freights(json=False):
     ]
     freights_per_month = {} if not json else []
     for i in range(1, 13):
-        freights_in_month = Frete.objects.filter(date__month=i)
+        freights_in_month = Frete.objects.filter(date__month=i).order_by('date')
         if freights_in_month:
             if not json:
                 freights_per_month[months[i - 1]] = freights_in_month
