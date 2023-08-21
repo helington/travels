@@ -27,3 +27,21 @@ body {
 .container {
     padding: 5px;
 }
+
+#freights {
+    padding: 10px;
+    padding-left: 30px;
+}
+
+li {
+    padding: 5px;
+}
+
+.btn-link {
+    padding-left: 4px;
+    text-decoration: none;
+}
+
+.btn-link:hover {
+    text-decoration: none;
+}

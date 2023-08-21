@@ -17,12 +17,13 @@ class Frete(models.Model):
         return f"""
         id: {self.id}
         title: {self.title}
-        date: {self.makeDate}
+        date: {self.makeDate()}
         """
 
     def serialize(self):
         return {
             "id": self.id,
             "title": self.title,
-            "date": self.date.strftime("%b %d %Y, %I:%M %p")
+            "date": self.makeDate(),
+            "date_for_html_input": self.makeDateForHTML()
         }

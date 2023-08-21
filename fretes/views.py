@@ -26,6 +26,8 @@ def all_freights(request):
     freights = organize_freights(json=True)
     return JsonResponse(freights, safe=False)
 
+
+@csrf_exempt
 def freight_by_id(request, freight_id):
     try:
         freight = Frete.objects.get(id=freight_id)
@@ -38,15 +40,20 @@ def freight_by_id(request, freight_id):
     elif request.method == "PUT":
         data = json.loads(request.body)
         title = data.get("title")
-        date = date.get("date")
+        date = data.get("date")
         if title is not None:
             freight.title = title
         if date is not None:
             freight.date = date
 
-        freight.save
+        freight.save()
         return HttpResponse(status=204)
 
+    elif request.method == "DELETE":
+        freight.delete()
+        return HttpResponse(status=204)
+
+@csrf_exempt
 def new_freight(request):
     if request.method != "POST":
         return JsonResponse({"error": "POST request required."}, status=400)
